@@ -1,3 +1,4 @@
+import os
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import (
     Application,
@@ -6,7 +7,7 @@ from telegram.ext import (
     ContextTypes,
 )
 
-TOKEN = "8852082846:AAEBMXjHBZHDoozpGiS6QGC5cd1CVOhb3Ps"
+TOKEN = os.environ.get("BOT_TOKEN")
 
 CHANNELS = [
     "@cl_plt",

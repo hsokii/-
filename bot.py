@@ -4,9 +4,7 @@ from telegram.ext import Application, CommandHandler, CallbackQueryHandler, Cont
 from datetime import datetime, timedelta
 import json
 import os
-
-# ===== التوكن =====
-TOKEN = "8852082846:AAHoH5gN-X8V5oSULN05G0LKOFIzkUWrJ7A"
+TOKEN = os.getenv("BOT_TOKEN")  # ياخذ التوكن من الإعدادات
 
 # ===== معرف الأدمن =====
 ADMIN_ID = 1025310531

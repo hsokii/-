@@ -9,48 +9,45 @@ logging.basicConfig(level=logging.INFO)
 async def delete_all_my_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         chat_id = update.effective_chat.id
+        user_id = update.effective_user.id
         
-        # نرسل رسالة بأن الحذف بدأ
+        # رسالة بداية
         msg = await update.message.reply_text("⏳ جاري حذف جميع رسائلي القديمة...")
         
-        # نجيب كل الرسائل من المحادثة (بطريقة مختلفة)
-        offset = 0
         deleted_count = 0
+        message_id = update.message.message_id - 1
         
-        while True:
-            # نجيب 100 رسالة كل مرة
-            messages = await context.bot.get_chat_history(chat_id, limit=100, offset=offset)
+        # نمسح 100 رسالة كل مرة (ننزل للخلف)
+        for i in range(100):  # نحاول 100 مرة
+            try:
+                await context.bot.delete_message(chat_id, message_id)
+                deleted_count += 1
+            except Exception as e:
+                # إذا الخطأ معناه إن الرسالة مو موجودة أو قديمة
+                if "message to delete not found" in str(e).lower():
+                    break
+                elif "message can't be deleted" in str(e).lower():
+                    break
+                else:
+                    logging.warning(f"خطأ بسيط: {e}")
             
-            if not messages:
-                break
-                
-            for message in messages:
-                # نتحقق إن الرسالة من البوت نفسه
-                if message.from_user and message.from_user.id == context.bot.id:
-                    try:
-                        await context.bot.delete_message(chat_id, message.message_id)
-                        deleted_count += 1
-                    except Exception as e:
-                        logging.warning(f"ما قدرت أحذف: {e}")
+            message_id -= 1  # نروح للرسالة اللي قبلها
             
-            # نزود الـ offset عشان نجيب الرسائل الأقدم
-            offset += 100
-            
-            # نوقف إذا وصلنا لـ 1000 رسالة (حد تليجرام)
-            if offset >= 1000:
+            # نوقف إذا وصلنا لـ 1000 رسالة
+            if deleted_count >= 1000:
                 break
         
         await msg.edit_text(f"✅ تم حذف {deleted_count} رسالة من رسائلي!")
         
     except Exception as e:
-        logging.error(f"خطأ: {e}")
+        logging.error(f"خطأ كبير: {e}")
         await update.message.reply_text(f"❌ خطأ: {e}")
 
 def main():
     app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", delete_all_my_messages))
     
-    print("✅ البوت شغال...")
+    print("✅ البوت شغال... ارسل /start في أي محادثة لحذف جميع رسائلي القديمة")
     app.run_polling()
 
 if __name__ == "__main__":

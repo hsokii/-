@@ -10,11 +10,13 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 # ========== تحميل المتغيرات من ملف .env ==========
 load_dotenv()
 
+# import os
+
 # ========== توكن البوت من المتغيرات البيئية ==========
-HASSAN_7 = os.getenv("HASSAN_7")
+HASSAN_7 = os.environ.get("HASSAN_7")
 
 if not HASSAN_7:
-    raise ValueError("❌ لم يتم العثور على التوكن! تأكد من وجود ملف .env فيه HASSAN_7=توكنك")
+    raise ValueError("❌ HASSAN_7 غير موجود في المتغيرات البيئية!")
 
 # ========== إعدادات التحميل ==========
 DOWNLOAD_PATH = "downloads/"

@@ -9,7 +9,7 @@ import shutil
 
 import yt_dlp
 
-TOKEN = os.getenv("BOT_TOKEN")  # ياخذ التوكن من الإعدادات
+TOKEN = os.getenv("BOT_TOKEN2")  # ياخذ التوكن من الإعدادات
 
 # ===== معرف الأدمن =====
 ADMIN_ID = 1025310531  # غيّره لمعرفك انت

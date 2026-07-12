@@ -11,7 +11,7 @@ ADMIN_ID = 8778989076
 
 
 # ===== القنوات =====
-CHANNELS = ["@cl_plt", "@sllpl7", "@do_tlo", "@lpl_sll", "@k9_lwl"]
+CHANNELS = []
 
 # ===== قناة الفيديوهات =====
 VIDEO_CHANNEL = "@sllpl0076543210"

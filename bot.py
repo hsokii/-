@@ -283,6 +283,15 @@ async def start_callback(query, context):
         reply_markup=InlineKeyboardMarkup(keyboard)
     )
 
+async def get_bot_name(context, bot_username):
+    """الحصول على اسم البوت من يوزره"""
+    try:
+        bot_username_clean = bot_username.replace('@', '')
+        bot_info = await context.bot.get_chat(f"@{bot_username_clean}")
+        return bot_info.title if bot_info.title else bot_username
+    except:
+        return bot_username
+
 async def show_bots(query, context):
     """عرض قائمة البوتات المرتبطة"""
     if not LINKED_BOTS:
@@ -290,9 +299,13 @@ async def show_bots(query, context):
         return
     
     keyboard = []
+    
     for bot in LINKED_BOTS:
         bot_username = bot.replace('@', '') if '@' in bot else bot
-        keyboard.append([InlineKeyboardButton(f"🤖 {bot}", url=f"https://t.me/{bot_username}")])
+        # محاولة الحصول على اسم البوت
+        bot_name = await get_bot_name(context, bot)
+        
+        keyboard.append([InlineKeyboardButton(f"🤖 {bot_name}", url=f"https://t.me/{bot_username}")])
     
     keyboard.append([InlineKeyboardButton("🔙 رجوع", callback_data="home")])
     

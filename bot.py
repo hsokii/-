@@ -14,7 +14,7 @@ ADMIN_ID = 8778989076
 CHANNELS = []
 
 # ===== قناة الفيديوهات =====
-VIDEO_CHANNEL = "@t.me/+JYgxvmc4VRgyZWVi"
+VIDEO_CHANNEL = "@xxahmed200q"
 TOTAL_VIDEOS = 900
 FIRST_VIDEO_ID = 2
 

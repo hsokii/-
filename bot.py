@@ -619,6 +619,18 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
     
     elif query.data == "next":
+        # ✅ فحص الاشتراك قبل عرض الفيديو
+        is_subscribed = await check_sub(user_id, context)
+        if not is_subscribed and CHANNELS:
+            await query.message.reply_text(
+                "❌ **تحذير!**\n\n"
+                "لقد طلعت من أحد القنوات! 🚫\n\n"
+                "يجب الاشتراك بـ **جميع** القنوات التالية لمتابعة البوت:\n\n"
+                "بعد الاشتراك بكل القنوات، جرب مرة أخرى!",
+                reply_markup=get_channels_keyboard()
+            )
+            return
+        
         current = user_positions.get(user_id, 1)
         if current > TOTAL_VIDEOS:
             await query.message.reply_text("❌ انتهت المتحركات!")
@@ -636,6 +648,18 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
     
     elif query.data == "prev":
+        # ✅ فحص الاشتراك قبل عرض الفيديو
+        is_subscribed = await check_sub(user_id, context)
+        if not is_subscribed and CHANNELS:
+            await query.message.reply_text(
+                "❌ **تحذير!**\n\n"
+                "لقد طلعت من أحد القنوات! 🚫\n\n"
+                "يجب الاشتراك بـ **جميع** القنوات التالية لمتابعة البوت:\n\n"
+                "بعد الاشتراك بكل القنوات، جرب مرة أخرى!",
+                reply_markup=get_channels_keyboard()
+            )
+            return
+        
         current = user_positions.get(user_id, 1)
         prev = max(1, current - 2)
         
